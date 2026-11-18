@@ -1,0 +1,50 @@
+{
+  "name": "nova-terminal",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A fast, modern terminal for macOS and Windows with command blocks, vertical tabs and a smart input box.",
+  "license": "MIT OR Apache-2.0",
+  "author": "Umesh Bakotiya",
+  "homepage": "https://github.com/umeshbakotiyadev/nova-terminal#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umeshbakotiyadev/nova-terminal.git"
+  },
+  "bugs": "https://github.com/umeshbakotiyadev/nova-terminal/issues",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.1.1",
+    "@fontsource/jetbrains-mono": "^5.1.1",
+    "@tauri-apps/api": "^2.5.0",
+    "@tauri-apps/plugin-dialog": "^2.2.0",
+    "@tauri-apps/plugin-opener": "^2.2.6",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-unicode11": "^0.8.0",
+    "@xterm/addon-web-links": "^0.11.0",
+    "@xterm/addon-webgl": "^0.18.0",
+    "@xterm/xterm": "^5.5.0",
+    "framer-motion": "^11.18.2",
+    "lucide-react": "^0.469.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@tauri-apps/cli": "^2.5.0",
+    "@types/node": "^22.10.5",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.0.0",
+    "typescript": "~5.6.3",
+    "vite": "^6.0.7"
+  }
+}

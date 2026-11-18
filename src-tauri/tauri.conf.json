@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Nova Terminal",
+  "version": "0.1.0",
+  "identifier": "dev.sandesh.nova-terminal",
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Nova Terminal",
+        "width": 1100,
+        "height": 720,
+        "minWidth": 520,
+        "minHeight": 320,
+        "titleBarStyle": "Overlay",
+        "trafficLightPosition": { "x": 16, "y": 24 },
+        "hiddenTitle": true,
+        "transparent": true
+      }
+    ],
+    "security": {
+      "csp": null
+    },
+    "macOSPrivateApi": true
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "DeveloperTool",
+    "shortDescription": "A fast, modern terminal",
+    "longDescription": "Nova Terminal is a fast, modern terminal with command blocks, vertical tabs, split panes and a smart input box that knows your shell.",
+    "publisher": "Umesh Bakotiya",
+    "copyright": "Copyright © 2026 Umesh Bakotiya. MIT or Apache-2.0.",
+    "license": "MIT OR Apache-2.0",
+    "homepage": "https://github.com/umeshbakotiyadev/nova-terminal",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "minimumSystemVersion": "11.0"
+    }
+  }
+}

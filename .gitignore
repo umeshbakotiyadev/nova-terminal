@@ -1,0 +1,23 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Rust / Tauri
+src-tauri/target
+src-tauri/gen/schemas
+
+# scratch
+_to_delete
+
+# logs and local secrets
+*.log
+.env
+.env.*
+
+# Windows
+Thumbs.db

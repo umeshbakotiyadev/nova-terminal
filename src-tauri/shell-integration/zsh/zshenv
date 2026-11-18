@@ -1,0 +1,21 @@
+# Nova Terminal shell integration bootstrap (zsh).
+#
+# Nova starts zsh with ZDOTDIR pointing at this folder, so this file runs
+# first. It puts your own ZDOTDIR back, loads your real ~/.zshenv, and then
+# adds Nova's hooks to interactive shells. Your .zprofile and .zshrc load
+# normally after this.
+
+if [[ -n "${NOVA_ORIG_ZDOTDIR+X}" ]]; then
+  builtin export ZDOTDIR="$NOVA_ORIG_ZDOTDIR"
+  builtin unset NOVA_ORIG_ZDOTDIR
+else
+  builtin unset ZDOTDIR
+fi
+
+if [[ -f "${ZDOTDIR:-$HOME}/.zshenv" ]]; then
+  builtin source "${ZDOTDIR:-$HOME}/.zshenv"
+fi
+
+if [[ -o interactive && -n "$NOVA_SHELL_INTEGRATION_DIR" ]]; then
+  builtin source "$NOVA_SHELL_INTEGRATION_DIR/nova.zsh"
+fi

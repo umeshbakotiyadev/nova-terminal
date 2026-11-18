@@ -1,0 +1,11 @@
+# Keep LF line endings in the repo and on every checkout, including Windows:
+# the shell integration scripts are embedded in the app and written to disk
+# as they are, and zsh can't read CRLF scripts.
+* text=auto eol=lf
+
+*.png binary
+*.ico binary
+*.icns binary
+
+pnpm-lock.yaml linguist-generated=true -diff
+src-tauri/Cargo.lock linguist-generated=true -diff

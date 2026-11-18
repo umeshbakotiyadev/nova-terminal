@@ -1,0 +1,292 @@
+@import "tailwindcss";
+
+:root {
+  --nova-bg: #0e0f13;
+  --nova-chrome: #0b0c10;
+  --nova-tab-active: #191b22;
+  --nova-border: rgba(255, 255, 255, 0.06);
+  --nova-border-strong: rgba(255, 255, 255, 0.09);
+  --nova-text: #e4e6eb;
+  --nova-muted: #8b90a0;
+  --nova-faint: #5b6072;
+  --nova-accent: #8b6cff;
+  --nova-red: #ff5c7a;
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  /* The window itself is transparent; the app paints its own background
+     (see-through when Window opacity is below 100%). */
+  background: transparent;
+  color: var(--nova-text);
+  font-family: "Inter Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+/* Terminal */
+.xterm {
+  height: 100%;
+}
+
+/* ---- Scrollbars (whole app) ------------------------------------------
+   Thin, rounded, no track, theme-coloured. Always visible (softly) when
+   there's something to scroll, brighter when hovered or dragged.
+   (WebKit doesn't reliably repaint scrollbars on :hover of the scrolling
+   area, so the thumb never depends on that.) */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  min-height: 32px;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-color: var(--nova-scrollbar);
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active {
+  border-width: 2px;
+  background-color: var(--nova-scrollbar-hover);
+}
+
+/* Lists whose bar shows only while the pointer is over them (tabs panel);
+   the state comes from script, see hoverScrollbar(). */
+.nova-hover-scroll:not([data-hover])::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+/* Scrolling rows that should never show a bar (the top tab strip). */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* The terminal's own scroll area never shows a track. */
+.xterm .xterm-viewport {
+  background-color: transparent !important;
+  overflow-y: auto;
+}
+
+/* Command blocks (drawn over the output by xterm decorations) */
+/* Command blocks: a layer above the text, positioned by TerminalView. */
+.nova-blocks {
+  position: absolute;
+  inset: 0 0 0 -10px;
+  z-index: 6;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.nova-block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  border-top: 1px solid var(--nova-border);
+}
+
+.nova-block-top {
+  border-top-color: transparent;
+}
+
+.nova-block-failed {
+  background: color-mix(in srgb, var(--nova-red) 7%, transparent);
+  box-shadow: inset 2px 0 0 var(--nova-red);
+}
+
+/* "exit 127" in the corner of a failed block. */
+.nova-block-failed::after,
+.nova-sticky::after {
+  content: attr(data-exit);
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  font: 500 10.5px/1.4 "Inter Variable", system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  color: var(--nova-red);
+  opacity: 0.8;
+}
+
+/* A long block's command, pinned to the top while its output scrolls by. */
+.nova-sticky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 80px 0 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  color: var(--nova-text);
+  background: var(--nova-bg-solid);
+  border-bottom: 1px solid var(--nova-border-strong);
+  box-shadow: 0 6px 12px -8px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.14s ease,
+    transform 0.14s ease;
+}
+
+.nova-sticky.is-shown {
+  pointer-events: auto;
+  opacity: 1;
+  transform: none;
+}
+
+.nova-sticky::after {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.nova-sticky:hover {
+  color: var(--nova-accent);
+}
+
+/* Text you type can be selected even though the window chrome can't. */
+textarea,
+input {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* ---- Motion ---------------------------------------------------------- */
+
+/* Theme changes blend instead of snapping. */
+.nova-surface {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease;
+}
+
+/* Buttons press in slightly. */
+button {
+  transition:
+    transform 0.1s ease,
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* A new block's divider fades in; a failed one glows red for a moment. */
+.nova-block-new {
+  animation: nova-block-in 0.3s ease-out;
+}
+
+.nova-block-new.nova-block-failed {
+  animation: nova-block-failed 0.6s ease-out;
+}
+
+@keyframes nova-block-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes nova-block-failed {
+  from {
+    background: color-mix(in srgb, var(--nova-red) 18%, transparent);
+  }
+}
+
+/* Right-click menu: a quick, small pop from the pointer. */
+.nova-menu-in {
+  transform-origin: top left;
+  animation: nova-menu-in 0.12s ease-out;
+}
+
+@keyframes nova-menu-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+/* Menu rows highlight instead of pressing in. */
+.nova-menu button:active {
+  transform: none;
+}
+
+/* The active tab's highlight settles in rather than snapping. */
+.nova-highlight-in {
+  animation: nova-highlight-in 0.18s ease-out;
+}
+
+@keyframes nova-highlight-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.nova-fade-in {
+  animation: nova-fade-in 0.25s ease-out;
+}
+
+@keyframes nova-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Split panes glide into place when you split, close or resize. */
+.nova-pane {
+  transition:
+    left 0.2s ease,
+    top 0.2s ease,
+    width 0.2s ease,
+    height 0.2s ease;
+}
+
+/* ...but follow the mouse exactly while a divider is dragged. */
+.nova-resizing .nova-pane {
+  transition: none;
+}
+
+.nova-resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+/* Settings → Animations off (Framer Motion is told separately). */
+.nova-reduce-motion *,
+.nova-reduce-motion *::before,
+.nova-reduce-motion *::after {
+  transition: none !important;
+  animation: none !important;
+}

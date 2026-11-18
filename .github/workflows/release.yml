@@ -1,0 +1,70 @@
+# Builds the installers and attaches them to a draft GitHub release.
+#
+# Release a new version:
+#   1. Bump the version in package.json, src-tauri/Cargo.toml and
+#      src-tauri/tauri.conf.json, and add it to CHANGELOG.md.
+#   2. Commit, then tag and push:  git tag v0.2.0 && git push origin v0.2.0
+#   3. When this workflow finishes, open the draft on the Releases page,
+#      check the notes and publish it.
+#
+# Running it by hand (Actions → Release → Run workflow) makes a draft for the
+# current version too, which is handy for testing installers before tagging.
+
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build (${{ matrix.name }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS, Apple Silicon
+            os: macos-latest
+            args: --target aarch64-apple-darwin
+          - name: macOS, Intel
+            os: macos-latest
+            args: --target x86_64-apple-darwin
+          - name: Windows
+            os: windows-latest
+            args: ""
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ startsWith(matrix.os, 'macos') && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+      - run: pnpm install --frozen-lockfile
+      - uses: tauri-apps/tauri-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: Nova Terminal v__VERSION__
+          releaseBody: |
+            See [CHANGELOG.md](https://github.com/umeshbakotiyadev/nova-terminal/blob/main/CHANGELOG.md) for what changed.
+
+            **Downloads:** `.dmg` for macOS (`aarch64` = Apple Silicon, `x64` = Intel), `.msi` or `-setup.exe` for Windows.
+
+            These builds aren't code-signed yet. On macOS, if Nova won't open, go to System Settings → Privacy & Security → Open Anyway. On Windows, choose More info → Run anyway.
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}

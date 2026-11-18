@@ -1,0 +1,36 @@
+[package]
+name = "nova-terminal"
+version = "0.1.0"
+description = "Nova Terminal: a fast, modern terminal with command blocks, vertical tabs and a smart input box"
+authors = ["Umesh Bakotiya"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/umeshbakotiyadev/nova-terminal"
+homepage = "https://github.com/umeshbakotiyadev/nova-terminal"
+edition = "2021"
+publish = false
+
+[lib]
+# The `_lib` suffix avoids a name clash with the binary on Windows.
+name = "nova_terminal_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["macos-private-api"] }
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+portable-pty = "0.9"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Talking to the macOS window (adjustable background blur).
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "0.6"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+strip = true
