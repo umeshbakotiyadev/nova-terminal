@@ -88,7 +88,7 @@ CI runs on every pull request: it builds the frontend, checks Rust formatting, a
 1. Update the version in `package.json`, `src-tauri/Cargo.toml` and `src-tauri/tauri.conf.json`.
 2. Move the **Unreleased** notes in `CHANGELOG.md` under the new version and date.
 3. Commit, then tag and push: `git tag v0.2.0 && git push origin main v0.2.0`.
-4. The **Release** workflow builds the macOS and Windows installers and attaches them to a draft release. Check it and publish it.
+4. The **Release** workflow builds the macOS and Windows installers and attaches them to a draft release. Check it and publish it. The README's download links always point to the latest published release, so they need no changes.
 
 ## Licensing
 

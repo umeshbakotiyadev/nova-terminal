@@ -62,9 +62,17 @@ jobs:
           releaseBody: |
             See [CHANGELOG.md](https://github.com/umeshbakotiyadev/nova-terminal/blob/main/CHANGELOG.md) for what changed.
 
-            **Downloads:** `.dmg` for macOS (`aarch64` = Apple Silicon, `x64` = Intel), `.msi` or `-setup.exe` for Windows.
+            **Downloads:**
+            - macOS, Apple Silicon (M1 or later): `Nova-Terminal_aarch64.dmg`
+            - macOS, Intel: `Nova-Terminal_x64.dmg`
+            - Windows 10 and 11: `Nova-Terminal_x64-setup.exe` (or `Nova-Terminal_x64.msi`)
 
             These builds aren't code-signed yet. On macOS, if Nova won't open, go to System Settings → Privacy & Security → Open Anyway. On Windows, choose More info → Run anyway.
           releaseDraft: true
           prerelease: false
+          # Same file names in every release, so the README's
+          # releases/latest/download/... links always fetch the newest one:
+          # Nova-Terminal_aarch64.dmg, Nova-Terminal_x64.dmg,
+          # Nova-Terminal_x64-setup.exe, Nova-Terminal_x64.msi
+          releaseAssetNamePattern: "Nova-Terminal_[arch][setup][ext]"
           args: ${{ matrix.args }}

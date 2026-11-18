@@ -9,10 +9,10 @@ Command blocks, vertical tabs, split panes, and an input box that knows your she
 
 [![CI](https://github.com/umeshbakotiyadev/nova-terminal/actions/workflows/ci.yml/badge.svg)](https://github.com/umeshbakotiyadev/nova-terminal/actions/workflows/ci.yml)
 [![License: MIT or Apache-2.0](https://img.shields.io/badge/license-MIT%20or%20Apache--2.0-blue)](#license)
-[![Platforms: macOS and Windows](https://img.shields.io/badge/platform-macOS%20%7C%20Windows-555)](#install)
+[![Platforms: macOS and Windows](https://img.shields.io/badge/platform-macOS%20%7C%20Windows-555)](#download)
 [![Built with Tauri 2](https://img.shields.io/badge/built%20with-Tauri%202-24c8db)](https://v2.tauri.app)
 
-[Download](https://github.com/umeshbakotiyadev/nova-terminal/releases) ·
+[Download](#download) ·
 [Build from source](#build-from-source) ·
 [Contributing](CONTRIBUTING.md) ·
 [Roadmap](docs/ROADMAP.md)
@@ -51,9 +51,15 @@ Command blocks, vertical tabs, split panes, and an input box that knows your she
   </tr>
 </table>
 
-## Install
+## Download
 
-Each release on the [Releases page](https://github.com/umeshbakotiyadev/nova-terminal/releases) has a `.dmg` for macOS 11 or later (Apple Silicon and Intel) and an `.msi` or `.exe` installer for Windows 10 and 11.
+| System | Download |
+| --- | --- |
+| macOS 11 or later, Apple Silicon (M1 and newer) | [**Nova-Terminal_aarch64.dmg**](https://github.com/umeshbakotiyadev/nova-terminal/releases/latest/download/Nova-Terminal_aarch64.dmg) |
+| macOS 11 or later, Intel | [**Nova-Terminal_x64.dmg**](https://github.com/umeshbakotiyadev/nova-terminal/releases/latest/download/Nova-Terminal_x64.dmg) |
+| Windows 10 and 11 (64-bit) | [**Nova-Terminal_x64-setup.exe**](https://github.com/umeshbakotiyadev/nova-terminal/releases/latest/download/Nova-Terminal_x64-setup.exe) or [.msi](https://github.com/umeshbakotiyadev/nova-terminal/releases/latest/download/Nova-Terminal_x64.msi) |
+
+These links always fetch the latest version. Release notes and older versions are on the [Releases page](https://github.com/umeshbakotiyadev/nova-terminal/releases). Not sure which Mac you have? Apple menu → **About This Mac**: "Apple M…" means Apple Silicon, "Intel" means Intel.
 
 The builds aren't code-signed yet, so your system asks once before opening Nova:
 
